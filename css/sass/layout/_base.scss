@@ -1,0 +1,44 @@
+/*===========================================================================================
+	BLOCKS - GENERAL RULES
+===========================================================================================*/
+.block {
+	width: 100%;
+	float: left;
+	&.inline_block {
+		text-align: center;
+		.sixth, .fifth, .quarter, .two_sixths, .third, .two_fifths, .three_sixths, .half, .three_fifths, .four_sixths, .two_third, .three_quarters, .four_fifths, .five_sixths {
+			float: none;
+			@include inline-block;
+			.text { text-align: left; }
+		}
+	}
+	&.left {
+		.sixth, .fifth, .quarter, .two_sixths, .third, .two_fifths, .three_sixths, .half, .three_fifths, .four_sixths, .two_third, .three_quarters, .four_fifths, .five_sixths { float: left; }
+	}
+	&.right {
+		.sixth, .fifth, .quarter, .two_sixths, .third, .two_fifths, .three_sixths, .half, .three_fifths, .four_sixths, .two_third, .three_quarters, .four_fifths, .five_sixths { float: right; }
+	}
+	&.row {
+		.sixth, .fifth, .quarter, .two_sixths, .third, .two_fifths, .three_sixths, .half, .three_fifths, .four_sixths, .two_third, .three_quarters, .four_fifths, .five_sixths {
+			&:first-child { margin: 0; }
+		}	
+	}
+	.sixth, .fifth, .quarter, .two_sixths, .third, .two_fifths, .three_sixths, .half, .three_fifths, .four_sixths, .two_third, .three_quarters, .four_fifths, .five_sixths {
+		&.left { float: left; }
+		&.right { float: right; }
+	}
+	.sixth { width: 100%; @include bp(640) { width: 16%; } }
+	.fifth { width: 100%; @include bp(640) { width: 20%; } }
+	.quarter { width: 100%; @include bp(640) { width: 25%; } }
+	.two_sixths { width: 100%; @include bp(640) { width: 32%; } }
+	.third { width: 100%; @include bp(640) { width: 33%; } }
+	.two_fifths { width: 100%; @include bp(640) { width: 40%; } }
+	.three_sixths { width: 100%; @include bp(640) { width: 48%; } }
+	.half { width: 100%; @include bp(640) { width: 50%; } }
+	.three_fifths { width: 100%; @include bp(640) { width: 60%; } }
+	.four_sixths { width: 100%; @include bp(640) { width: 64%; } }
+	.two_thirds { width: 100%; @include bp(640) { width: 67%;} }
+	.three_quarters { width: 100%; @include bp(640) { width: 75%; } }
+	.four_fifths { width: 100%; @include bp(640) { width: 80%; } }
+	.five_sixths { width: 100%; @include bp(640) { width: 80%; } }
+}

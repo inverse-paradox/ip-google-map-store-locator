@@ -1,0 +1,150 @@
+/* ===========================================================
+	MIXINS
+=========================================================== */
+/*
+	Mixin ideas:
+	1.  Horizontal Nav
+	2.  Vertical Nav
+*/
+
+@mixin image_ratio($ratio) {
+	@media (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) { @content; }
+}
+
+@mixin bp($point) {
+	$bp-480: "(min-width: 480px)";
+	$bp-max-480: "(max-width: 480px)";
+	$bp-640: "(min-width: 640px)";
+	$bp-max-640: "(max-width: 640px)";
+	$bp-768: "(min-width: 769px)";
+	$bp-max-768: "(max-width: 769px)";
+	$bp-1000: "(min-width: 1000px)";
+	$bp-max-1000: "(max-width: 1000px)";
+	$bp-1200: "(min-width: 1200px)";
+	$bp-max-1200: "(max-width: 1200px)";
+	$bp-1400: "(min-width: 1400px)";
+	$bp-max-1400: "(max-width: 1400px)";
+	$bp-768-1000: "(min-width: 769px) and (max-width: 1000px)";
+	@if $point == 480 { @media #{$bp-480} { @content; } }
+	@else if $point == max-480 { @media #{$bp-max-480} { @content; } }
+	@else if $point == 640 { @media #{$bp-640} { @content; } }
+	@else if $point == max-640 { @media #{$bp-max-640} { @content; } }
+	@else if $point == 768 { @media #{$bp-768} { @content; } }
+	@else if $point == max-768 { @media #{$bp-max-768} { @content; } }
+	@else if $point == 1000 { @media #{$bp-1000}  { @content; } }
+	@else if $point == max-1000 { @media #{$bp-max-1000}  { @content; } }
+	@else if $point == 1200 { @media #{$bp-1200}  { @content; } }
+	@else if $point == max-1200 { @media #{$bp-max-1200}  { @content; } }
+	@else if $point == 1400 { @media #{$bp-1400}  { @content; } }
+	@else if $point == max-1400 { @media #{$bp-max-1400}  { @content; } }
+	@else if $point == 768-1000 { @media #{$bp-768-1000} { @content; } }
+}
+@mixin new_bp($bp, $min-max: min-width) {
+	@media(#{$min-max}: #{$bp}) { @content; }
+}
+
+@mixin font( $font_size, $line_height, $base, $bold: $base, $italic: $base, $bolditalic: $base, $fallback: $text ) {
+	font: normal #{$font_size}/#{$line_height} $base, $fallback;
+	strong { font: normal #{$font_size}/#{$line_height} $bold, $fallback; }
+	em { font: normal #{$font_size}/#{$line_height} $italic, $fallback; }
+	strong em, em strong { font: normal #{$font_size}/#{$line_height} $bolditalic, $fallback; }
+}
+@mixin placeholder {
+	&::-webkit-input-placeholder { @content; }
+	&:-moz-placeholder { @content; }
+	&::-moz-placeholder { @content; }
+	&:-ms-input-placeholder { @content; }
+}
+@mixin flex_display {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	justify-content: space-around;
+}
+@mixin horizontal_navigation {
+	ul {
+		width: 100%;
+		float: left;
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		justify-content: space-around;
+		text-align: center;
+		li {
+			margin: auto;
+			display: inline-block;
+			zoom: 1;
+			*display: inline;
+		}
+	}
+}
+@mixin hidden { height: 0; width: 0; opacity: 0; visibility: hidden; * { height: 0; width: 0; opacity: 0; visibility: hidden; } }
+@mixin visible { height: auto; width: auto; opacity: 1; visibility: visible; * { height: auto; width: auto; opacity: 1; visibility: visible; } }
+@mixin resp_image { display: block; width: 100%; height: auto; margin: 0 auto; }
+@mixin inline_block { display: inline-block; zoom: 1; *display: inline; }
+@mixin vendorize( $property, $value ) { -webkit-#{$property}: $value; -moz-#{$property}: $value; -ms-#{$property}: $value; -o-#{$property}: $value; #{$property}: $value; }
+@mixin box-sizing( $box-model ) { -webkit-box-sizing: $box-model; -moz-box-sizing: $box-model; box-sizing: $box-model; }
+@mixin hide { opacity: 0; visibility: hidden; height: 0; width: 0; padding: 0; margin: 0; }
+@mixin show { opacity: 1; visibility: visible; height: auto; width: auto; }
+@mixin opacity($level) { filter: alpha(opacity = $level * 100); opacity: $level; }
+@mixin transform($type) { -webkit-transform: $type; -moz-transform: $type; -ms-transform: $type; -o-transform: $type; transform: $type; }
+@mixin animation($name, $timing: 0.5s) { -webkit-animation: $name $timing; -moz-animation: $name $timing; -ms-animation: $name $timing; -o-animation: $name $timing; }
+@mixin vertical-align { position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%); }
+/* ===========================================================
+	GRADIENT MIXINS
+=========================================================== */
+@mixin image-with-gradient($color1, $color2, $image) {
+	background: $color1;
+	background-image: url($image); /* fallback */
+	background-image: url($image), -webkit-gradient(linear, left top, left bottom, from($color1), to($color2)); /* Saf4+, Chrome */
+	background-image: url($image), -webkit-linear-gradient(top, $color1, $color2); /* Chrome 10+, Saf5.1+ */
+	background-image: url($image),    -moz-linear-gradient(top, $color1, $color2); /* FF3.6+ */
+	background-image: url($image),     -ms-linear-gradient(top, $color1, $color2); /* IE10 */
+	background-image: url($image),      -o-linear-gradient(top, $color1, $color2); /* Opera 11.10+ */
+	background-image: url($image),         linear-gradient(top, $color1, $color2); /* W3C */
+}
+@mixin linear-gradient($direction, $color1, $offset1, $color2, $offset2) {
+	$color1css: '#'#{$color1}'';
+	$color2css: '#'#{$color2}'';
+	$offset1css: ''#{$offset1}'%';
+	$offset2css: ''#{$offset2}'%';
+	$color1svg: '%3cstop%20style%3d%22stop%2dcolor%3a%23'#{$color1}'%22%20offset%3d%22'#{$offset1}'%25%22%2f%3e';
+	$color2svg: '%3cstop%20style%3d%22stop%2dcolor%3a%23'#{$color2}'%22%20offset%3d%22'#{$offset2}'%25%22%2f%3e';
+	$angle_webkit: 'left top, left bottom';
+	$angle_old: 'top';
+	$angle_svg: '%20x2%3d%220%25%22%20y2%3d%22100%25%22';
+	@if $direction == 'to right' {
+		$angle_webkit: 'left top, right top';
+		$angle_svg: '%20x2%3d%22100%25%22';
+		$angle_old: 'left';
+	}
+}
+/* ===========================================================
+	RESERVE MIXINS
+=========================================================== */
+/*
+@mixin mykeyframes($keyname) {
+	@-webkit-keyframes $keyname { @content; }
+	@-moz-keyframes $keyname { @content; }
+	@-ms-keyframes $keyname { @content; }
+	@keyframes $keyname { @content; }
+}
+@mixin myanim($animname) {
+	-webkit-animation:$animname;
+	-moz-animation:$animname;
+	-o-animation:$animname;
+	animation:$animname;
+}
+@include mykeyframes(moving-water) {
+	0% {background-position:0 top;}
+	100% {background-position:-776px top;}
+}
+@function black($opacity) { @return rgba(0,0,0,$opacity); }
+@function white($opacity) { @return rgba(255,255,255,$opacity); }
+@mixin box-emboss($opacity, $opacity2) { box-shadow:white($opacity) 0 1px 0, inset black($opacity2) 0 1px 0; }
+@mixin letterpress($opacity) { text-shadow:white($opacity) 0 1px 0; }
+*/
