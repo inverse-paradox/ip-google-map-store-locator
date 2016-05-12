@@ -1,7 +1,7 @@
 <?php
 /*
-	Plugin Name:  Google Map Store Locator
-	Plugin URI: https://github.com/joshhannan/google-maps-store-locator
+	Plugin Name:  IP Google Map Store Locator
+	Plugin URI: https://github.com/joshhannan/ip-google-map-store-locator
 	Description:  Plugin that utilizes Google Maps to build complex Store Locator, as well as directions functionality.
 	Version: 1.0
 	Author: <a href="http://github.com/joshhannan">Josh Hannan</a>
@@ -11,13 +11,15 @@
 /*======================================================================
 	SETUP PLUGIN - BUILD POST TYPE, TAXONOMY, EDIT LOCATION PAGE
 ======================================================================*/
+
+	global $gmsl_plugin_url = get_bloginfo('url') . '/wp-content/plugins/ip-google-map-store-locator';
 	 
 	function gmsl_add_settings_link( $links, $file ) {
-		$gmsl_settings_link = '<a href="' . admin_url( 'edit.php?post_type=gmsl_locations&page=gmsl_settings' ) . '">' . __( 'Settings', 'Google Map Store Locator' ) . '</a>';
+		$gmsl_settings_link = '<a href="' . admin_url( 'edit.php?post_type=gmsl_locations&page=gmsl_settings' ) . '">' . __( 'Settings', 'IP Google Map Store Locator' ) . '</a>';
 		array_unshift( $links, $gmsl_settings_link );
 		return $links;
 	}
-	$gmsl_plugin_file = 'google-maps-store-locator/index.php';
+	$gmsl_plugin_file = 'ip-google-map-store-locator/index.php';
 	add_filter( "plugin_action_links_{$gmsl_plugin_file}", 'gmsl_add_settings_link', 10, 2 );
 
 	function create_post_type() {
@@ -163,7 +165,7 @@
 			'gmsl_scrollwheel' => 'true',
 			'gmsl_load_css' => 'true',
 			'gmsl_map_style' => '',
-			'gmsl_map_icon' => get_bloginfo('url') . '/wp-content/plugins/google-maps-store-locator/images/map_marker_default.png'
+			'gmsl_map_icon' => $gmsl_plugin_url. '/images/map_marker_default.png'
 		);
 		$options = wp_parse_args( get_option( 'gmsl_settings' ), $gmsl_settings_defaults );
 		update_option( 'gmsl_settings', $options );
@@ -439,10 +441,10 @@
 	}
 	function queue_scripts_styles() {
 		wp_register_script( 'google_map_api', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array('jquery'), null, true );
-		wp_register_script( 'google_map_api_infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js', array('jquery', 'google_map_api'), null, true );
-		wp_register_script('google_map_it', get_bloginfo('url') . '/wp-content/plugins/google-maps-store-locator/js/store_locator.js', array('jquery', 'google_map_api', 'google_map_api_infobox' ), null, true );
+		wp_register_script( 'google_map_api_infobox', 'wp-content/plugins/ip-google-map-store-locator/js/libs/infobox.js', array('jquery', 'google_map_api'), null, true );
+		wp_register_script('google_map_it', $gmsl_plugin_url. '/js/store_locator.js', array('jquery', 'google_map_api', 'google_map_api_infobox' ), null, true );
 		wp_localize_script( 'google_map_it', 'ajax_call', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-		wp_register_style( 'wp_store_locator', get_bloginfo('url') . '/wp-content/plugins/google-maps-store-locator/css/global.css', false, null );
+		wp_register_style( 'wp_store_locator', $gmsl_plugin_url. '/css/global.css', false, null );
 		$gmsl_settings = get_option( 'gmsl_settings' );
 		if( $gmsl_settings['gmsl_load_css'] == 'true' ) :
 			wp_enqueue_style( 'wp_store_locator' );
@@ -502,9 +504,9 @@
 		endif;
 
 		if( $a['search'] == true && $search_position == 'top' ) :
-			return '<div id="gmsl_map">' . $search . $locations_return . '<div id="google-map" style="min-height: 400px; position: relative;" data-id="' . $a['id'] . '" data-type="' . $a['type'] . '" data-scrollwheel="' . $scrollwheel_setting . '"><img width="32" height="32" style="position: absolute; display: block; top: 50%; left: 50%; margin: -16px 0 0 -16px;" src="' . plugins_url() . '/google-maps-store-locator/images/ajaxloader.gif" /></div></div>';
+			return '<div id="gmsl_map">' . $search . $locations_return . '<div id="google-map" style="min-height: 400px; position: relative;" data-id="' . $a['id'] . '" data-type="' . $a['type'] . '" data-scrollwheel="' . $scrollwheel_setting . '"><img width="32" height="32" style="position: absolute; display: block; top: 50%; left: 50%; margin: -16px 0 0 -16px;" src="' . plugins_url() . '/ip-google-map-store-locator/images/ajaxloader.gif" /></div></div>';
 		else :
-			return '<div id="gmsl_map"><div id="google-map" style="min-height: 400px; position: relative;" data-id="' . $a['id'] . '" data-type="' . $a['type'] . '" data-scrollwheel="' . $scrollwheel_setting . '"><img width="32" height="32" style="position: absolute; display: block; top: 50%; left: 50%; margin: -16px 0 0 -16px;" src="' . plugins_url() . '/google-maps-store-locator/images/ajaxloader.gif" /></div>' . $search . $locations_return . '</div>';
+			return '<div id="gmsl_map"><div id="google-map" style="min-height: 400px; position: relative;" data-id="' . $a['id'] . '" data-type="' . $a['type'] . '" data-scrollwheel="' . $scrollwheel_setting . '"><img width="32" height="32" style="position: absolute; display: block; top: 50%; left: 50%; margin: -16px 0 0 -16px;" src="' . plugins_url() . '/ip-google-map-store-locator/images/ajaxloader.gif" /></div>' . $search . $locations_return . '</div>';
 		endif;
 	}
 	add_shortcode('store_locator', 'store_locator');
