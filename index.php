@@ -11,8 +11,6 @@
 /*======================================================================
 	SETUP PLUGIN - BUILD POST TYPE, TAXONOMY, EDIT LOCATION PAGE
 ======================================================================*/
-
-	global $gmsl_plugin_url = get_bloginfo('url') . '/wp-content/plugins/ip-google-map-store-locator';
 	 
 	function gmsl_add_settings_link( $links, $file ) {
 		$gmsl_settings_link = '<a href="' . admin_url( 'edit.php?post_type=gmsl_locations&page=gmsl_settings' ) . '">' . __( 'Settings', 'IP Google Map Store Locator' ) . '</a>';
@@ -165,7 +163,7 @@
 			'gmsl_scrollwheel' => 'true',
 			'gmsl_load_css' => 'true',
 			'gmsl_map_style' => '',
-			'gmsl_map_icon' => $gmsl_plugin_url. '/images/map_marker_default.png'
+			'gmsl_map_icon' => get_bloginfo('url') . '/wp-content/plugins/ip-google-map-store-locator/images/map_marker_default.png'
 		);
 		$options = wp_parse_args( get_option( 'gmsl_settings' ), $gmsl_settings_defaults );
 		update_option( 'gmsl_settings', $options );
@@ -442,9 +440,9 @@
 	function queue_scripts_styles() {
 		wp_register_script( 'google_map_api', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array('jquery'), null, true );
 		wp_register_script( 'google_map_api_infobox', 'wp-content/plugins/ip-google-map-store-locator/js/libs/infobox.js', array('jquery', 'google_map_api'), null, true );
-		wp_register_script('google_map_it', $gmsl_plugin_url. '/js/store_locator.js', array('jquery', 'google_map_api', 'google_map_api_infobox' ), null, true );
+		wp_register_script('google_map_it', get_bloginfo('url') . '/wp-content/plugins/ip-google-map-store-locator/js/store_locator.js', array('jquery', 'google_map_api', 'google_map_api_infobox' ), null, true );
 		wp_localize_script( 'google_map_it', 'ajax_call', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-		wp_register_style( 'wp_store_locator', $gmsl_plugin_url. '/css/global.css', false, null );
+		wp_register_style( 'wp_store_locator', get_bloginfo('url') . '/wp-content/plugins/ip-google-map-store-locator/css/global.css', false, null );
 		$gmsl_settings = get_option( 'gmsl_settings' );
 		if( $gmsl_settings['gmsl_load_css'] == 'true' ) :
 			wp_enqueue_style( 'wp_store_locator' );
